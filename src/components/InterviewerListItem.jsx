@@ -14,6 +14,7 @@ setInterviewer={function}
 */
 
 export default function InterviewerListItem(props) {
+  
   const InterviewerListItemClass = classNames("interviewers__item", {
     "interviewers__item--selected": props.selected,
     // "day-list__item--full": (props.spots === 0)
