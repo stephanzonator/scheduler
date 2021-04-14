@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import DayList from "./DayList";
 import "styles/Application.scss";
+import Appointment from "./Appointment";
 
 const days = [
   {
@@ -20,8 +21,56 @@ const days = [
   },
 ];
 
+const appointArray = [
+  {
+    id: 1,
+    time: "12pm",
+  },
+  {
+    id: 2,
+    time: "1pm",
+    interview: {
+      student: "Lydia Miller-Jones",
+      interviewer: {
+        id: 1,
+        name: "Sylvia Palmer",
+        avatar: "https://i.imgur.com/LpaY82x.png",
+      }
+    }
+  },
+  {
+    id: 3,
+    time: "2pm",
+  },
+  {
+    id: 4,
+    time: "3pm",
+    interview: {
+      student: "Firstnamia Lastnamia",
+      interviewer: {
+        id: 1,
+        name: "Name Mcnamey",
+        avatar: "https://i.imgur.com/LpaY82x.png",
+      }
+    }
+  }
+];
+
+
 export default function Application(props) {
   const [day, setDay] = useState("Monday");
+  
+  // let schedule = [];
+  // for (appointment of appointments) {schedule.push({ <Appointment key={appointment.id} {...appointment} /> })}
+  // const schedule = appointArray.map((appointment) => ({ "lskj";}) //key={appointment.id} {...appointment}) />}
+  // );
+  // const schedule = <Appointment />
+  const schedule = appointArray.map(appointment => {
+      return (<Appointment key={appointment.id} {...appointment} />)      
+  });
+  
+
+
   return (
     <main className="layout">
       <section className="sidebar">
@@ -48,7 +97,7 @@ export default function Application(props) {
         
       </section>
       <section className="schedule">
-        {/* Replace this with the schedule elements durint the "The Scheduler" activity. */}
+        {schedule}
       </section>
     </main>
     
