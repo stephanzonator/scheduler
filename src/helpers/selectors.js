@@ -1,4 +1,10 @@
 export function getAppointmentsForDay(state, dayParam) {
+  const currentDay = state.days.find(day => day.name === dayParam)
+  if (state.days.length === 0 || currentDay === undefined ) {
+    return [];
+  }
+  let result = currentDay.appointments.map(id => state.appointments[id])
+  return result;
   // return state;
   // let result = [];
   // for (let day in state["days"]) {
@@ -19,12 +25,6 @@ export function getAppointmentsForDay(state, dayParam) {
   // }
   // return result;
 
-  const currentDay = state.days.find(day => day.name === dayParam)
-  if (state.days.length === 0 || currentDay === undefined ) {
-    return [];
-  }
-  let result = currentDay.appointments.map(id => state.appointments[id])
-  return result;
 };
 
 export function getInterview(state, interview) {
@@ -44,4 +44,13 @@ export function getInterview(state, interview) {
   }
 };
 
-// export default {getAppointmentsForDay, getInterview};
+export function getInterviewersForDay(state, dayParam) {
+  const currentDay = state.days.find(day => day.name === dayParam)
+  if (state.days.length === 0 || currentDay === undefined ) {
+    // console.log("ssssss")
+    return [];
+  }
+  // console.log("bbbbbbbbbb", currentDay)
+  let result = currentDay.appointments.map(id => state.appointments[id])
+  return result;
+}
