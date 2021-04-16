@@ -13,12 +13,24 @@ const EMPTY = "EMPTY";
 const SHOW = "SHOW";
 const CREATE = "CREATE";
 
+
 export default function Appointment(props){
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
 
-  console.log("butternut squash", props)
+  function save(name, interviewer) {
+    //this code came from Compass
+    console.log("save called", name, interviewer)
+    const interview = {
+      student: name,
+      interviewer
+    };
+    //
+    props.bookInterview(props.id, interview)
+  }
+
+  // console.log("butternut squash", props)
 
   // let nextComponent = "";
   // props.interview ?  nextComponent = <Show /> : nextComponent = <Empty />
@@ -38,7 +50,7 @@ export default function Appointment(props){
         />
       )}
       {mode === CREATE && (
-        <Create name="placeholder" onCancel={back} interviewers={getInterviewersForDay(props, props.day)} />
+        <Create name="placeholder" onSave={save} onCancel={back} interviewers={props.interviewers} />
       )}
     </div>
   );
