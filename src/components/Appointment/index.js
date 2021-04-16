@@ -6,6 +6,7 @@ import Show from "./Show.js";
 import Empty from "./Empty.js";
 import Create from "./Form.js";
 import useVisualMode from "../../hooks/useVisualMode";
+import {getInterviewersForDay} from "../../helpers/selectors"
 
 
 const EMPTY = "EMPTY";
@@ -16,6 +17,8 @@ export default function Appointment(props){
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
+
+  console.log("butternut squash", props)
 
   // let nextComponent = "";
   // props.interview ?  nextComponent = <Show /> : nextComponent = <Empty />
@@ -30,12 +33,12 @@ export default function Appointment(props){
       {mode === SHOW && (
         <Show
           student={props.interview.student}
-          // interviewer={props.interview.interviewer}
-          interviewer={[]}
+          interviewer={props.interview.interviewer}
+          // interviewer={[]}
         />
       )}
       {mode === CREATE && (
-        <Create name="placeholder" onCancel={back} interviewers = {[]} />
+        <Create name="placeholder" onCancel={back} interviewers={getInterviewersForDay(props, props.day)} />
       )}
     </div>
   );
