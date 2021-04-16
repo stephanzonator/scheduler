@@ -45,7 +45,7 @@ export function getInterview(state, interview) {
 };
 
 export function getInterviewersForDay(state, dayParam) {
-  console.log("selector", state);
+  // console.log("selector", state);
   const currentDay = state.days.find(day => day.name === dayParam)
   if (state.days.length === 0 || currentDay === undefined ) {
     // console.log("ssssss")
@@ -53,7 +53,7 @@ export function getInterviewersForDay(state, dayParam) {
   }
   // console.log("bbbbbbbbbb", currentDay)
   const availableInterviewersIds = currentDay.interviewers
-  console.log("available interview", availableInterviewersIds);
+  // console.log("available interview", availableInterviewersIds);
   const availableInterviewers = Object.values(state.interviewers).filter(interviewer => availableInterviewersIds.includes(interviewer.id))
   // let result = currentDay.interviewers.map(id => state.appointments[id])
   return availableInterviewers;

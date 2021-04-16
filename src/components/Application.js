@@ -112,6 +112,8 @@ export default function Application(props) {
   // const schedule = appointArray.map((appointment) => ({ "lskj";}) //key={appointment.id} {...appointment}) />}
   // );
   // const schedule = <Appointment />
+
+
   function bookInterview(id, interview) {
     console.log("interview booked: ", id, interview);
     const appointment = {
@@ -122,11 +124,31 @@ export default function Application(props) {
     const appointments = {
       ...state.appointments,
       [id]: appointment
-    };
-    
+    }; 
     
     // axios.get(`http://localhost:8001/api/debug/reset`)
     return axios.put(`http://localhost:8001/api/appointments/${id}`, {interview})
+    .then(data => {
+      console.log(data);
+      setState({...state, appointments})
+    })
+    .catch(res => console.log("fatal error in Application.js", res));
+  }
+  
+  function deleteInterview(id) {
+    console.log("deleteInterview called: ", id);
+    const appointment = {
+        ...state.appointments[id],
+        interview: null
+    };
+    
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    
+    console.log("potato", appointment, appointments)
+    return axios.delete(`http://localhost:8001/api/appointments/${id}`)
       .then(data => {
         console.log(data);
         setState({...state, appointments})
@@ -146,6 +168,7 @@ export default function Application(props) {
         interview={interview} 
         interviewers={interviewers}
         bookInterview={bookInterview}
+        deleteInterview={deleteInterview}
         // onSave={save}
         />)      
   });

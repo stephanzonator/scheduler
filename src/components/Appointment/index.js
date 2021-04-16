@@ -14,6 +14,7 @@ const EMPTY = "EMPTY";
 const SHOW = "SHOW";
 const CREATE = "CREATE";
 const SAVING = "SAVING";
+const DELETING = "DELETING";
 
 
 export default function Appointment(props){
@@ -23,8 +24,8 @@ export default function Appointment(props){
 
   function save(name, interviewer) {
     //this code came from Compass
-    console.log("save called", name, interviewer)
-    transition(SAVING)
+    console.log("save called", name, interviewer);
+    transition(SAVING);
     const interview = {
       student: name,
       interviewer
@@ -34,6 +35,12 @@ export default function Appointment(props){
       .then(() => transition(SHOW))
   }
 
+  function deleteFunc() {
+    console.log("delete function called in appointment index");
+    transition(DELETING);
+    props.deleteInterview(props.id)
+      .then(()=> transition(EMPTY))
+  }
   // console.log("butternut squash", props)
 
   // let nextComponent = "";
@@ -43,14 +50,14 @@ export default function Appointment(props){
   
   return(
     <div>
-      <Header time="12pm"/>
+      <Header time={props.time}/>
       {/* {nextComponent} */}
       {mode === EMPTY && <Empty onAdd={() => {transition(CREATE)}} />}
       {mode === SHOW && (
         <Show
           student={props.interview.student}
           interviewer={props.interview.interviewer}
-          // interviewer={[]}
+          onDelete={deleteFunc}
         />
       )}
       {mode === CREATE && (
@@ -58,6 +65,9 @@ export default function Appointment(props){
       )}
       {mode === SAVING && (
         <Status message="Saving..." />
+      )}
+      {mode === DELETING && (
+        <Status message="Deleting..." />
       )}
     </div>
   );
