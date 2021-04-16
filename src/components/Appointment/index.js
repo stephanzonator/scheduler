@@ -5,6 +5,7 @@ import Header from "./Header.js";
 import Show from "./Show.js";
 import Empty from "./Empty.js";
 import Create from "./Form.js";
+import Status from "./Status.js";
 import useVisualMode from "../../hooks/useVisualMode";
 import {getInterviewersForDay} from "../../helpers/selectors"
 
@@ -12,6 +13,7 @@ import {getInterviewersForDay} from "../../helpers/selectors"
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
 const CREATE = "CREATE";
+const SAVING = "SAVING";
 
 
 export default function Appointment(props){
@@ -22,12 +24,14 @@ export default function Appointment(props){
   function save(name, interviewer) {
     //this code came from Compass
     console.log("save called", name, interviewer)
+    transition(SAVING)
     const interview = {
       student: name,
       interviewer
     };
     //
-    props.bookInterview(props.id, interview)
+    props.bookInterview(props.id, interview) //now it returns a promise\\
+      .then(() => transition(SHOW))
   }
 
   // console.log("butternut squash", props)
@@ -51,6 +55,9 @@ export default function Appointment(props){
       )}
       {mode === CREATE && (
         <Create name="placeholder" onSave={save} onCancel={back} interviewers={props.interviewers} />
+      )}
+      {mode === SAVING && (
+        <Status message="Saving..." />
       )}
     </div>
   );

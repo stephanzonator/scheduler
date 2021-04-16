@@ -114,6 +114,24 @@ export default function Application(props) {
   // const schedule = <Appointment />
   function bookInterview(id, interview) {
     console.log("interview booked: ", id, interview);
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    
+    
+    // axios.get(`http://localhost:8001/api/debug/reset`)
+    return axios.put(`http://localhost:8001/api/appointments/${id}`, {interview})
+      .then(data => {
+        console.log(data);
+        setState({...state, appointments})
+      })
+      .catch(res => console.log("fatal error in Application.js", res));
   }
 
   
