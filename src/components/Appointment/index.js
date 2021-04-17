@@ -6,6 +6,7 @@ import Show from "./Show.js";
 import Empty from "./Empty.js";
 import Form from "./Form.js";
 import Confirm from "./Confirm.js";
+import Error from "./Error.js";
 import Status from "./Status.js";
 import useVisualMode from "../../hooks/useVisualMode";
 import {getInterviewersForDay} from "../../helpers/selectors"
@@ -18,6 +19,8 @@ const SAVING = "SAVING";
 const DELETING = "DELETING";
 const CONFIRM = "CONFIRM";
 const EDIT = "EDIT";
+const ERROR_SAVE = "ERROR_SAVE";
+const ERROR_DELETE = "ERROR_DELETE";
 
 export default function Appointment(props){
   const { mode, transition, back } = useVisualMode(
@@ -35,13 +38,18 @@ export default function Appointment(props){
     //
     props.bookInterview(props.id, interview) //now it returns a promise\\
       .then(() => transition(SHOW))
+      .catch((res)=> transition(ERROR_SAVE, true))
   }
 
   function deleteFunc() {
-    console.log("delete function called in appointment index");
+    console.log("delete function called in appointment index,", props.deleteInterview);
     transition(DELETING);
     props.deleteInterview(props.id)
       .then(()=> transition(EMPTY))
+      .catch((res)=> {
+        transition(ERROR_DELETE, true);
+        console.log("oh oh the server is borked")
+      })
   }
   // console.log("butternut squash", props)
 
@@ -79,8 +87,11 @@ export default function Appointment(props){
       {mode === CONFIRM && (
         <Confirm message="Do you want to delete?" onCancel={back} onConfirm={deleteFunc} />
       )}
-      {mode === ERROR && (
-        <Confirm message="Do you want to delete?" onCancel={back} onConfirm={deleteFunc} />
+      {mode === ERROR_SAVE && (
+        <Error message="Do you want to delete?" message="Error: Could not save" onClose={back}  />
+      )}
+      {mode === ERROR_DELETE && (
+        <Error message="Do you want to delete?" message="Error: Could not delete" onClose={back}  />
       )}
 
     </div>
