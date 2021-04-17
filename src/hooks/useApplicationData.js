@@ -33,7 +33,7 @@ export default function useApplicationData() {
     )
     .catch((response) => {console.log("brussels sprout error", response)})
 
-  }, []);
+  }, [state.days]);
   
   const setDay = day => setState({ ...state, day });
 
