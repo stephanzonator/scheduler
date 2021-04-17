@@ -6,7 +6,7 @@ import InterviewerList from "../InterviewerList";
 
 export default function Appointment(props){
   const [getName, setName] = useState(props.name || "");
-  const [interviewer, setInterviewer] = useState(props.interviewer || null);
+  const [interviewer, setInterviewer] = useState(props.interviewer.id || null);
   
   function reset() {
     setName("");

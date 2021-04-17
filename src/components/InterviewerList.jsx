@@ -11,6 +11,7 @@ setInterviewer{function}
 */
 
 export default function InterviewerList(props) {
+  console.log("props.interviewer :)", props.interviewer)
   const interviewers = props.interviewers.map(interviewer => {
     return (
       <InterviewerListItem 

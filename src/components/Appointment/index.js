@@ -4,7 +4,8 @@ import "./styles.scss";
 import Header from "./Header.js";
 import Show from "./Show.js";
 import Empty from "./Empty.js";
-import Create from "./Form.js";
+import Form from "./Form.js";
+import Confirm from "./Confirm.js";
 import Status from "./Status.js";
 import useVisualMode from "../../hooks/useVisualMode";
 import {getInterviewersForDay} from "../../helpers/selectors"
@@ -15,7 +16,8 @@ const SHOW = "SHOW";
 const CREATE = "CREATE";
 const SAVING = "SAVING";
 const DELETING = "DELETING";
-
+const CONFIRM = "CONFIRM";
+const EDIT = "EDIT";
 
 export default function Appointment(props){
   const { mode, transition, back } = useVisualMode(
@@ -57,18 +59,30 @@ export default function Appointment(props){
         <Show
           student={props.interview.student}
           interviewer={props.interview.interviewer}
-          onDelete={deleteFunc}
+          onDelete={() => {transition(CONFIRM)}}
+          onEdit={() => {transition(EDIT)}}
         />
       )}
       {mode === CREATE && (
-        <Create name="placeholder" onSave={save} onCancel={back} interviewers={props.interviewers} />
+        <Form name="" onSave={save} onCancel={back} interviewer={{}} interviewers={props.interviewers} />
       )}
+      {mode === EDIT && (
+        <Form name={props.interview.student} onSave={save} onCancel={back} interviewer={props.interview.interviewer} interviewers={props.interviewers} />
+      )}
+
       {mode === SAVING && (
         <Status message="Saving..." />
       )}
       {mode === DELETING && (
         <Status message="Deleting..." />
       )}
+      {mode === CONFIRM && (
+        <Confirm message="Do you want to delete?" onCancel={back} onConfirm={deleteFunc} />
+      )}
+      {mode === ERROR && (
+        <Confirm message="Do you want to delete?" onCancel={back} onConfirm={deleteFunc} />
+      )}
+
     </div>
   );
 }
