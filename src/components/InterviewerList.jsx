@@ -2,7 +2,6 @@ import React from "react";
 // import classNames from 'classnames/bind';
 import "styles/InterviewerList.scss";
 import InterviewerListItem from "components/InterviewerListItem";
-import PropTypes from "prop-types";
 
 /*
 required props
@@ -10,9 +9,10 @@ interviewers{array}
 interviewer{number}
 setInterviewer{function}
 */
+import PropTypes from "prop-types";
 
 InterviewerList.propTypes = {
-  interviewers: PropTypes.number.isRequired,
+  interviewers: PropTypes.array.isRequired,
   interviewer: PropTypes.number.isRequired,
   setInterviewer: PropTypes.func.isRequired
 };
