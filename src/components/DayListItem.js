@@ -19,9 +19,9 @@ export default function DayListItem(props) {
   if (props.spots === 1) {
     spotPlural = "spot";
   }
-
+  // console.log("set to ", props.name);
   return (
-    <li className={dayClass} onClick={() => {props.setDay(props.name); console.log("set to ", props.name);}}>
+    <li data-testid="day" className={dayClass} onClick={() => {props.setDay(props.name); }}>
       <h2 className="text--regular">{props.name}</h2> 
       <h3 className="text--light">{spotNum} {spotPlural} remaining</h3>
     </li>

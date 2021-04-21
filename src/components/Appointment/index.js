@@ -29,7 +29,7 @@ export default function Appointment(props){
 
   function save(name, interviewer) {
     //this code came from Compass
-    console.log("save called", name, interviewer);
+    // console.log("save called", name, interviewer);
     transition(SAVING);
     const interview = {
       student: name,
@@ -42,7 +42,7 @@ export default function Appointment(props){
   }
 
   function deleteFunc() {
-    console.log("delete function called in appointment index,", props.deleteInterview);
+    // console.log("delete function called in appointment index,", props.deleteInterview);
     transition(DELETING);
     props.deleteInterview(props.id)
       .then(()=> transition(EMPTY))
@@ -59,7 +59,7 @@ export default function Appointment(props){
 
   
   return(
-    <div>
+    <article data-testid="appointment">
       <Header time={props.time}/>
       {/* {nextComponent} */}
       {mode === EMPTY && <Empty onAdd={() => {transition(CREATE)}} />}
@@ -94,6 +94,6 @@ export default function Appointment(props){
         <Error message="Do you want to delete?" message="Error: Could not delete" onClose={back}  />
       )}
 
-    </div>
+    </article>
   );
 }

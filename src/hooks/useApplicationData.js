@@ -12,9 +12,9 @@ export default function useApplicationData() {
   
   useEffect(() => {
     Promise.all([
-      axios.get(`http://localhost:8001/api/days`),
-      axios.get(`http://localhost:8001/api/appointments`),
-      axios.get(`http://localhost:8001/api/interviewers`)
+      axios.get(`/api/days`),
+      axios.get(`/api/appointments`),
+      axios.get(`/api/interviewers`)
     ])
     .then(
       ([{ data: days }, { data: appointments }, { data: interviewers }]) => {
@@ -48,10 +48,11 @@ export default function useApplicationData() {
           counter += 1;
         }
       })
-      console.log("counter", counter);
+      // console.log("*****************************************************counter", counter, "spots", spots);
       // const appointmentNumber = d.appointments.length;
       // if () {}
       const day = {...state.days[d.id-1], spots: 5- counter}
+      console.log("useful text", day, appointments)
       return {...day}
       //[...state.days]}
     })
@@ -68,7 +69,7 @@ export default function useApplicationData() {
   }
 
   const bookInterview = function(id, interview) {
-    console.log("interview booked: ", id, interview);
+    // console.log("interview booked: ", id, interview);
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
@@ -80,7 +81,7 @@ export default function useApplicationData() {
     }; 
     
     // axios.get(`http://localhost:8001/api/debug/reset`)
-    return axios.put(`http://localhost:8001/api/appointments/${id}`, {interview})
+    return axios.put(`/api/appointments/${id}`, {interview})
     .then(data => {
       const days = updateRemainingSpots(state, appointments);
       // console.log(days);
@@ -90,7 +91,7 @@ export default function useApplicationData() {
   }
 
   const deleteInterview = function(id) {
-    console.log("deleteInterview called: ", id);
+    // console.log("deleteInterview called: ", id);
     const appointment = {
         ...state.appointments[id],
         interview: null
@@ -100,16 +101,19 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment
     };
-    console.log("potato", appointment, appointments);
+    // console.log("potato", appointment, appointments);
     return axios
-      .delete(`http://localhost:8001/api/appointments/${id}`)
+      .delete(`/api/appointments/${id}`)
       .then((data) => {
         console.log(data);
         const days = updateRemainingSpots(state, appointments);
-        console.log("delete func, days", days)
+        // console.log("delete func, days", days)
         setState({ ...state, appointments, days});
       })
-     .catch(res => console.log("fatal error in useApplicationData.js", res));
+     .catch(res => {
+      // const days = updateRemainingSpots(state, appointments);
+      console.log("fatal error in useApplicationData.js", res);
+    });
      
   } 
 
