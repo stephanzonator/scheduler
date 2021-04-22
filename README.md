@@ -4,3 +4,7 @@ Allows users to schedule hypothetical appointments and select an interviewer fro
 ## Setup
 
 Install dependencies with `npm install`.
+
+!["Screenshot of appointments"](https://raw.githubusercontent.com/stephanzonator/scheduler/master/public/images/interviewscheduler1.png)
+
+!["Confirm screen when you try to delete an appointment"](https://raw.githubusercontent.com/stephanzonator/scheduler/master/public/images/interviewscheduler2.png)
