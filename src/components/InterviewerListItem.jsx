@@ -1,8 +1,6 @@
 import React from "react";
-import classNames from 'classnames/bind';
+import classNames from "classnames/bind";
 import "styles/InterviewerListItem.scss";
-
-
 
 /*
 required props
@@ -14,7 +12,6 @@ setInterviewer={function}
 */
 
 export default function InterviewerListItem(props) {
-  
   const InterviewerListItemClass = classNames("interviewers__item", {
     "interviewers__item--selected": props.selected,
     // "day-list__item--full": (props.spots === 0)
@@ -23,13 +20,13 @@ export default function InterviewerListItem(props) {
   });
 
   return (
-  <li onClick={props.setInterviewer} className={InterviewerListItemClass}> 
-    <img
-      className= "interviewers__item-image"
-      src={props.avatar}//"https://i.imgur.com/LpaY82x.png"
-      alt={props.name}//"Sylvia Palmer"
+    <li onClick={props.setInterviewer} className={InterviewerListItemClass}>
+      <img
+        className="interviewers__item-image"
+        src={props.avatar} //"https://i.imgur.com/LpaY82x.png"
+        alt={props.name} //"Sylvia Palmer"
       />
-  {props.selected ? props.name : ""}
-  </li>
-);
-}  
+      {props.selected ? props.name : ""}
+    </li>
+  );
+}

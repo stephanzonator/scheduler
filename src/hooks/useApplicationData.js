@@ -1,44 +1,43 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-
 export default function useApplicationData() {
   const [state, setState] = useState({
     day: "Monday",
     days: [],
-    // you may put the line below, but will have to remove/comment hardcoded appointments variable
     appointments: []
   });
-  
+
   useEffect(() => {
     Promise.all([
       axios.get(`/api/days`),
       axios.get(`/api/appointments`),
-      axios.get(`/api/interviewers`)
+      axios.get(`/api/interviewers`),
     ])
-    .then(
-      ([{ data: days }, { data: appointments }, { data: interviewers }]) => {
-        // console.log("KUMQUAT******", "pumpkin");
+      .then(
+        ([{ data: days }, { data: appointments }, { data: interviewers }]) => {
+          // console.log("KUMQUAT******", "pumpkin");
 
-        setState((prev) => ({
-          ...prev,
-          days,
-          appointments,
-          interviewers,
-          //days: all[0]["data"], appointments: getAppointmentsForDay(state, state.day)
-          // getAppointmentsForDay(all, state.day)
-          //, third: all[2]
-        }));
-      }
-    )
-    .catch((response) => {console.log("brussels sprout error", response)})
-
+          setState((prev) => ({
+            ...prev,
+            days,
+            appointments,
+            interviewers,
+            //days: all[0]["data"], appointments: getAppointmentsForDay(state, state.day)
+            // getAppointmentsForDay(all, state.day)
+            //, third: all[2]
+          }));
+        }
+      )
+      .catch((response) => {
+        console.log("brussels sprout error", response);
+      });
   }, []); //, [state.days]
-  
-  const setDay = day => setState({ ...state, day });
 
-  const updateRemainingSpots = function(state, appointments){
-    let days = [...state.days]
+  const setDay = (day) => setState({ ...state, day });
+
+  const updateRemainingSpots = function (state, appointments) {
+    let days = [...state.days];
     // console.log("update remaining spots:", days)
     // let daysVar;
     return state.days.map((d) => {
@@ -47,15 +46,15 @@ export default function useApplicationData() {
         if (appointments[app].interview) {
           counter += 1;
         }
-      })
+      });
       // console.log("*****************************************************counter", counter, "spots", spots);
       // const appointmentNumber = d.appointments.length;
       // if () {}
-      const day = {...state.days[d.id-1], spots: 5- counter}
-      console.log("useful text", day, appointments)
-      return {...day}
+      const day = { ...state.days[d.id - 1], spots: 5 - counter };
+      // console.log("useful text", day, appointments)
+      return { ...day };
       //[...state.days]}
-    })
+    });
     // console.log("update remaining spots 2", daysVar)
     // return daysVar;
     // return state.days;
@@ -64,63 +63,59 @@ export default function useApplicationData() {
     day = {...day, spots = 5 - }
     state.days = [..days]
     */
+  };
 
-    
-  }
-
-  const bookInterview = function(id, interview) {
+  const bookInterview = function (id, interview) {
     // console.log("interview booked: ", id, interview);
     const appointment = {
       ...state.appointments[id],
-      interview: { ...interview }
+      interview: { ...interview },
     };
 
     const appointments = {
       ...state.appointments,
-      [id]: appointment
-    }; 
-    
+      [id]: appointment,
+    };
+
     // axios.get(`http://localhost:8001/api/debug/reset`)
-    return axios.put(`/api/appointments/${id}`, {interview})
-    .then(data => {
+    return axios.put(`/api/appointments/${id}`, { interview }).then((data) => {
       const days = updateRemainingSpots(state, appointments);
       // console.log(days);
-      setState({...state, appointments, days});
-    })
+      setState({ ...state, appointments, days });
+    });
     // .catch(res => console.log("fatal error in Application.js", res));
-  }
+  };
 
-  const deleteInterview = function(id) {
+  const deleteInterview = function (id) {
     // console.log("deleteInterview called: ", id);
     const appointment = {
-        ...state.appointments[id],
-        interview: null
+      ...state.appointments[id],
+      interview: null,
     };
-    
+
     const appointments = {
       ...state.appointments,
-      [id]: appointment
+      [id]: appointment,
     };
     // console.log("potato", appointment, appointments);
     return axios
       .delete(`/api/appointments/${id}`)
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         const days = updateRemainingSpots(state, appointments);
         // console.log("delete func, days", days)
-        setState({ ...state, appointments, days});
+        setState({ ...state, appointments, days });
       })
-     .catch(res => {
-      // const days = updateRemainingSpots(state, appointments);
-      console.log("fatal error in useApplicationData.js", res);
-    });
-     
-  } 
+      .catch((res) => {
+        // const days = updateRemainingSpots(state, appointments);
+        console.log("fatal error in useApplicationData.js", res);
+      });
+  };
 
   return {
     state,
     setDay,
     bookInterview,
-    deleteInterview
+    deleteInterview,
   };
 }
