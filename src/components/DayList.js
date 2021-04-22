@@ -15,7 +15,4 @@ export default function DayList(props) {
   });
 
   return days;
-  // return (
-  //   <ul></ul>
-  // );
 }

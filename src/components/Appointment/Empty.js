@@ -1,7 +1,7 @@
 import React from "react";
 
-export default function Appointment(props){
-  return(
+export default function Appointment(props) {
+  return (
     <main className="appointment__add">
       <img
         className="appointment__add-button"
@@ -10,6 +10,5 @@ export default function Appointment(props){
         onClick={props.onAdd}
       />
     </main>
-
   );
 }

@@ -1,23 +1,6 @@
 # Interview Scheduler
+Allows users to schedule hypothetical appointments and select an interviewer from a list of candidates. Made in React, tested with Jest, Storybook, and Cypress. Made for Lighthouse Labs's coding bootcamp, March - May of 2021.
 
 ## Setup
 
 Install dependencies with `npm install`.
-
-## Running Webpack Development Server
-
-```sh
-npm start
-```
-
-## Running Jest Test Framework
-
-```sh
-npm test
-```
-
-## Running Storybook Visual Testbed
-
-```sh
-npm run storybook
-```
